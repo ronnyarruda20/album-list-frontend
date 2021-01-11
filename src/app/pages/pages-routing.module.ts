@@ -1,10 +1,11 @@
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-
-import { PagesComponent } from './pages.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'app/security/guards/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { PagesComponent } from './pages.component';
+
 
 const routes: Routes = [{
   path: '',
@@ -13,6 +14,7 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: ECommerceComponent,
+      canActivate: [AuthGuard],
     },
     {
       path: 'iot-dashboard',

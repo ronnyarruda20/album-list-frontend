@@ -3,8 +3,9 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AuthenticationService } from 'app/security/service/authentication.service';
 
 @Component({
   selector: 'ngx-header',
@@ -38,14 +39,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
-  constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+  constructor(
+    private userService: UserData,
+    private menuService: NbMenuService,
+    private layoutService: LayoutService,
+    private nbMenuService: NbMenuService,
+    private themeService: NbThemeService,
+    private sidebarService: NbSidebarService,
+    private breakpointService: NbMediaBreakpointsService,
+    private authenticationService: AuthenticationService,
+  ) {
   }
 
   ngOnInit() {
@@ -69,6 +74,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+
+    this.nbMenuService.onItemClick()
+      .pipe(filter(({ tag }) => tag === 'context-menu'), map(({ item: { title } }) => title))
+      .subscribe(title => {
+        this.selectMenu(title);
+      });
   }
 
   ngOnDestroy() {
@@ -90,5 +101,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  selectMenu(selected) {
+    if (selected === 'Log out') {
+      this.logout();
+    }
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 }
