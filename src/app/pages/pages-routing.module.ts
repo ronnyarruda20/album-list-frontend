@@ -9,6 +9,11 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
+      path: 'album',
+      loadChildren: () => import('./album/album.module')
+        .then(m => m.AlbumModule),
+    },
+    {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
         .then(m => m.LayoutModule),
@@ -45,7 +50,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'dashboard',
+      redirectTo: 'album',
       pathMatch: 'full',
     },
     {

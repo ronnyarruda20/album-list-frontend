@@ -10,6 +10,7 @@ export class AlbumListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }
