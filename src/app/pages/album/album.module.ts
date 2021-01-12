@@ -4,11 +4,12 @@ import { NbActionsModule, NbButtonModule, NbCardModule, NbLayoutModule, NbUserMo
 import { ThemeModule } from 'app/@theme/theme.module';
 import { AlbumListComponent } from './album-list/album-list.component';
 import { AlbumRoutingModule } from './album-routing.module';
+import { AlbumComponent } from './album.component';
 
 
 
 @NgModule({
-  declarations: [AlbumListComponent],
+  declarations: [AlbumComponent],
   imports: [
     CommonModule,
     AlbumRoutingModule,

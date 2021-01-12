@@ -50,7 +50,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'album',
+      redirectTo: 'album/list',
       pathMatch: 'full',
     },
     {
