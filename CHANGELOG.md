@@ -4,7 +4,6 @@
 
 ### Bug Fixes
 
-* **echarts:** set merge input ([#5632](https://github.com/akveo/ngx-admin/issues/5632)) ([dfaa5cd](https://github.com/akveo/ngx-admin/commit/dfaa5cd))
 * **sidebar:** toggle performance issues ([#5658](https://github.com/akveo/ngx-admin/issues/5658)) ([9eaf0bb](https://github.com/akveo/ngx-admin/commit/9eaf0bb))
 
 
@@ -155,7 +154,6 @@ The following libraries were updated:
 - @ng-bootstrap/ng-bootstrap
 - @swimlane/ngx-charts
 - ng2-ckeditor
-- ngx-echarts
 * **icons:** Since this is a major package update we recommend looking through the upgrade guide https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4
 
 
@@ -202,7 +200,6 @@ The following libraries were updated:
 ### Bug Fixes
 
 * **dashboard:** fix temp/humidity buttons ([0f494dc](https://github.com/akveo/ngx-admin/commit/0f494dc))
-* **echarts:** fix x-axis style ([ba6877c](https://github.com/akveo/ngx-admin/commit/ba6877c))
 * **icons:** remove All Nebular Icons link as there are no more icons ([edb05b7](https://github.com/akveo/ngx-admin/commit/edb05b7)), closes [#1597](https://github.com/akveo/ngx-admin/issues/1597)
 * **ie:** add es7 object polyfill for IE ([0630fe7](https://github.com/akveo/ngx-admin/commit/0630fe7))
 * **map:** get the bubble map back (thanks to @SUlbrichA) ([#1655](https://github.com/akveo/ngx-admin/issues/1655)) ([19f9d0e](https://github.com/akveo/ngx-admin/commit/19f9d0e)), closes [#1576](https://github.com/akveo/ngx-admin/issues/1576)

@@ -153,10 +153,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/maps/gmaps',
       },
       {
-        title: 'Leaflet Maps',
-        link: '/pages/maps/leaflet',
-      },
-      {
         title: 'Bubble Maps',
         link: '/pages/maps/bubble',
       },
@@ -170,10 +166,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Charts',
     icon: 'pie-chart-outline',
     children: [
-      {
-        title: 'Echarts',
-        link: '/pages/charts/echarts',
-      },
       {
         title: 'Charts.js',
         link: '/pages/charts/chartjs',
