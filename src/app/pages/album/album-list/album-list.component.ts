@@ -1,20 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NewsPost, NewsService } from 'app/pages/layout/news.service';
 import { environment } from 'environments/environment';
 import { AlbumService } from '../album.service';
 
 @Component({
   selector: 'ngx-album-list',
   templateUrl: './album-list.component.html',
-  styleUrls: ['./album-list.component.scss']
+  styleUrls: ['./album-list.component.scss'],
 })
 export class AlbumListComponent implements OnInit {
 
   private baseUrl: string;
-  pageSize = 2
+  pageSize = 10
+  news = new Array<NewsPost>();
+  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
+  firstCard = {
+    news: [],
+    placeholders: [],
+    loading: false,
+    pageToLoadNext: 1,
+  };
 
   constructor(
     private service: AlbumService,
+    private newsService: NewsService,
     public activatedRoute: ActivatedRoute,
   ) {
     this.activatedRoute.data.subscribe(data => {
@@ -24,6 +34,7 @@ export class AlbumListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadNext(this.firstCard);
     // this.service.getAllPaginate(0, 1, this.baseUrl, null)
     //   .subscribe(res => {
     //     console.log(res.contents)
@@ -45,5 +56,22 @@ export class AlbumListComponent implements OnInit {
   //       } 
   //     });
   // }
+
+  loadNext(cardData) {
+    console.log(cardData)
+    if (cardData.loading) { return; }
+
+    cardData.loading = true;
+    cardData.placeholders = new Array(this.pageSize);
+    this.newsService.load(0,50)
+      .subscribe(nextNews => {
+        this.news.push(...nextNews);
+        cardData.placeholders = [];
+        cardData.news.push(...nextNews);
+        cardData.loading = false;
+        cardData.pageToLoadNext++;
+      });
+  }
+
 
 }
