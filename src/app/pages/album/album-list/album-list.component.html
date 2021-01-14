@@ -1,38 +1,23 @@
 <div class="row">
-
-  <div class="thecard">
-    <div class="card-img">
-      <img src="./assets/images/album-capa.jpg" width="300" height="300">
+  <div *ngFor="let album of searchResults">
+    <div class="col-md-12 col-lg-6 col-xxxl-4">
+      <div class="thecard">
+        <div class="card-img">
+          <img src="./assets/images/album-capa.jpg" width="300" height="300">
+        </div>
+        <div class="card-caption">
+          <span class="date">Thursday, July 16, 2015</span>
+          <br />
+          <span>{{album[0].nome}}</span>
+          <p>{{album[0].autor.nome}}</p>
+        </div>
+        <!-- <div class="card-outmore">
+            <h5>Read more</h5>
+            <i id="outmore-icon" class="fa fa-angle-right"></i>
+          </div> -->
+      </div>
     </div>
-    <div class="card-caption">
-      <span class="date">Thursday, July 16, 2015</span>
-      <br />
-      <span>Harakiri</span>
-      <p>Serj Tankian</p>
-    </div>
-    <!-- <div class="card-outmore">
-      <h5>Read more</h5>
-      <i id="outmore-icon" class="fa fa-angle-right"></i>
-    </div> -->
   </div>
-
 </div>
-
-
-<cdk-virtual-scroll-viewport [itemSize]="18 * 7" class="example-viewport">
-  <div *cdkVirtualFor="let item of items;
-                       let index = index;
-                       let count = count;
-                       let first = first;
-                       let last = last;
-                       let even = even;
-                       let odd = odd;" [class.example-alternate]="odd">
-    <div class="example-item-detail">Item: {{item}}</div>
-    <div class="example-item-detail">Index: {{index}}</div>
-    <div class="example-item-detail">Count: {{count}}</div>
-    <div class="example-item-detail">First: {{first ? 'Yes' : 'No'}}</div>
-    <div class="example-item-detail">Last: {{last ? 'Yes' : 'No'}}</div>
-    <div class="example-item-detail">Even: {{even ? 'Yes' : 'No'}}</div>
-    <div class="example-item-detail">Odd: {{odd ? 'Yes' : 'No'}}</div>
-  </div>
-</cdk-virtual-scroll-viewport>
+<mat-paginator [length]="length" [pageSize]="pageSize" 
+  (page)="setPageEvent($event)"> </mat-paginator>

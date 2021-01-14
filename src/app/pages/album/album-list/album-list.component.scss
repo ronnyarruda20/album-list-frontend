@@ -22,7 +22,7 @@ a:hover .thecard {
 @include nb-install-component {
   .thecard {
     width           : 300px;
-    margin          : 2% 2%;
+    margin          : 8% 2%;
     box-shadow      : nb-theme(slide-out-shadow-color);;
     display         : block;
     background-color: white;
