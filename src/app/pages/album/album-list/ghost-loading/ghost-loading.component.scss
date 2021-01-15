@@ -21,3 +21,14 @@
     background: nb-theme(background-basic-color-2);
   }
 }
+
+
+
+::ng-deep label {
+  display: inline-block;
+  padding-left: 10px !important;
+}
+
+::ng-deep  nb-icon {
+  font-size: 2rem !important;
+}

@@ -3,8 +3,9 @@
 export class AlbumModel  {
     id: number
     nome: string
-    image: string
+    imagem: string
     autor: AutorModel
+    file: string
 }
 
 export class AutorModel {

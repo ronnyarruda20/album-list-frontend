@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { NewsPost, NewsService } from 'app/pages/layout/news.service';
 import { environment } from 'environments/environment';
 import { AlbumService } from '../album.service';
 
@@ -17,11 +17,12 @@ export class AlbumListComponent implements OnInit {
   pageSize = 5;
   pageNumber = 0;
   searchResults: Array<any>;
-  pageEvent: PageEvent;
   placeholders: any;
+  fileToUpload: File = null;
 
   constructor(
     private service: AlbumService,
+    private sanitizer: DomSanitizer,
     public activatedRoute: ActivatedRoute,
   ) {
     this.activatedRoute.data.subscribe(data => {
@@ -41,6 +42,7 @@ export class AlbumListComponent implements OnInit {
         if (res.contents.length > 0) {
           this.searchResults = res.contents;
           this.length = res.pageInfo.totalElements;
+          this.getImage(res.contents);
         }
         this.placeholders = [];
       });
@@ -48,8 +50,36 @@ export class AlbumListComponent implements OnInit {
 
   setPageEvent(pageEvent: PageEvent) {
     this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize)
-    console.log(pageEvent)
   }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    console.log(this.fileToUpload)
+  }
+
+  getImage(albums: any) {
+    albums.forEach(p => {
+      p.forEach(m => {
+        if (m.imagem) {
+          this.service.getImage(m.imagem, this.baseUrl)
+            .subscribe(res => {
+              m.file = this.createImageUrl(res);
+            });
+        } else {
+          m.file = './assets/images/album-capa.jpg';
+        }
+      })
+    })
+  }
+
+
+  createImageUrl(data: any) {
+    let blob = new Blob([data], { type: "image/png" });
+    let url = window.URL.createObjectURL(blob);
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+
 
 }
 
