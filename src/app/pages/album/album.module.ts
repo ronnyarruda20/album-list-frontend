@@ -2,15 +2,16 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NbButtonModule, NbCardModule, NbLayoutModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbButtonModule, NbCardModule, NbIconModule, NbLayoutModule } from '@nebular/theme';
 import { ThemeModule } from 'app/@theme/theme.module';
 import { AlbumListComponent } from './album-list/album-list.component';
-import { NewsPostPlaceholderComponent } from './album-list/news-post-placeholder/news-post-placeholder.component';
+import { GhostLoadingComponent } from './album-list/ghost-loading/ghost-loading.component';
 import { AlbumRoutingModule } from './album-routing.module';
 import { AlbumService } from './album.service';
 
 @NgModule({
-  declarations: [AlbumListComponent, NewsPostPlaceholderComponent],
+  declarations: [AlbumListComponent, GhostLoadingComponent],
   imports: [
     CommonModule,
     AlbumRoutingModule,
@@ -18,6 +19,8 @@ import { AlbumService } from './album.service';
     NbCardModule,
     NbLayoutModule,
     NbButtonModule,
+    NbIconModule,
+    NbEvaIconsModule,
     ScrollingModule,
     MatPaginatorModule,
   ],
