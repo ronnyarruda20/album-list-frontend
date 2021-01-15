@@ -18,6 +18,7 @@ export class AlbumListComponent implements OnInit {
   pageNumber = 0;
   searchResults: Array<any>;
   pageEvent: PageEvent;
+  placeholders: any;
 
   constructor(
     private service: AlbumService,
@@ -33,12 +34,15 @@ export class AlbumListComponent implements OnInit {
   }
 
   private loadALbum(pageNumber: number, pageSize: number) {
+    this.searchResults = [];
+    this.placeholders = new Array(pageSize);
     this.service.getAllPaginate(pageNumber, pageSize, this.baseUrl, null)
       .subscribe(res => {
         if (res.contents.length > 0) {
           this.searchResults = res.contents;
           this.length = res.pageInfo.totalElements;
         }
+        this.placeholders = [];
       });
   }
 

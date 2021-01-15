@@ -1,23 +1,19 @@
+
 @import '../../../../@theme/styles/themes';
 
 :host {
   display: block;
 
-  .title-placeholder {
-    height: 1.8rem;
-    margin-bottom: 0.5rem;
-    width: 80%;
-  }
-
-  .text-placeholder {
-    height: 4rem;
+  .ghost-loading {
+    height: 18rem;
     margin-bottom: 1rem;
+    width           : 300px;
+    display         : block;
+    background-color: white;
+    border-radius   : 4px;
+    transition      : 400ms ease;
   }
 
-  .link-placeholder {
-    height: 1.25rem;
-    width: 5rem;
-  }
 }
 
 @include nb-install-component() {

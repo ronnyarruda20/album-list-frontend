@@ -5,19 +5,22 @@
         <div class="card-img">
           <img src="./assets/images/album-capa.jpg" width="300" height="300">
         </div>
+          <button nbButton ghost  size="large">
+            <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }" status="control"></nb-icon>
+          </button>
         <div class="card-caption">
           <span class="date">Thursday, July 16, 2015</span>
           <br />
           <span>{{album[0].nome}}</span>
           <p>{{album[0].autor.nome}}</p>
         </div>
-        <!-- <div class="card-outmore">
-            <h5>Read more</h5>
-            <i id="outmore-icon" class="fa fa-angle-right"></i>
-          </div> -->
       </div>
     </div>
   </div>
+  <nb-list-item *ngFor="let _ of placeholders">
+      <div class="col-md-12 col-lg-6 col-xxxl-4">
+        <ngx-ghost-loading></ngx-ghost-loading>
+      </div>
+    </nb-list-item>
 </div>
-<mat-paginator [length]="length" [pageSize]="pageSize" 
-  (page)="setPageEvent($event)"> </mat-paginator>
+<mat-paginator [length]="length" [pageSize]="pageSize" (page)="setPageEvent($event)"> </mat-paginator>
