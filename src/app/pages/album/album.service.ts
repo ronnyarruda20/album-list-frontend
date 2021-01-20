@@ -1,34 +1,31 @@
+import { HttpEvent } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaginationModel } from 'app/shared/model/pagination.model';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { AlbumModel } from './album.model';
 
 const httpOptions = {
   headers: new HttpHeaders(
     {
-      'Content-Type': 'application/ms-excel'
+      'Content-Type': 'multipart/form-data; boundary=---WebKitFormBoundaryE19zNvXGzXaLvS5C'
     })
 };
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlbumService implements OnInit {
 
-  private baseUrl: string;
-
   constructor(
     public httpClient: HttpClient,
     public activatedRoute?: ActivatedRoute,
-  ) {
-  }
-  ngOnInit() {
-    this.baseUrl = environment.api
-  }
+  ) { }
 
+  ngOnInit() { }
 
   getAllPaginate(pageNumber: any, pageSize: any, endPoint: string, saerchTerm?: any): Observable<PaginationModel<AlbumModel>> {
     return this.httpClient.get<any>(endPoint + '/list', {
@@ -40,14 +37,17 @@ export class AlbumService implements OnInit {
 
   getImage(imagem: string, endPoint: string): Observable<any> {
     return this.httpClient.get(endPoint + '/files/' + imagem, { responseType: 'arraybuffer' }).pipe();
-      // .subscribe((res: any) => {
-      //   let blob = new Blob([res], { type: "application/ms-excel" });
-      //   return window.URL.createObjectURL(blob);
-      // })
   }
 
+  save(albumModel: AlbumModel, endPoint: string): Observable<AlbumModel> {
+    return this.httpClient.post<AlbumModel>(endPoint + '/save', albumModel).pipe();
+  }
 
-
-
+  file(file: File, endPoint: string): Observable<any> {
+    let formData = new FormData();
+    formData.append('file', file, 'file');
+    console.log()
+    return this.httpClient.post<any>(endPoint + '/files/upload', formData).pipe();
+  }
 
 }

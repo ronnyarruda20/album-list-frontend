@@ -8,6 +8,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/album/list'
   },
   {
+    title: 'Upload',
+    icon: 'keypad-outline',
+    link: '/pages/upload'
+  },
+  {
     title: 'Layout',
     icon: 'layout-outline',
     children: [

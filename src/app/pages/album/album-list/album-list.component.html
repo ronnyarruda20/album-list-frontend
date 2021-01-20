@@ -1,13 +1,12 @@
 <mat-paginator [length]="length" [pageSize]="pageSize" (page)="setPageEvent($event)"> </mat-paginator>
 <div class="row">
-  <div *ngFor="let album of searchResults">
+  <div *ngFor="let album of albums">
     <div class="col-md-12 col-lg-6 col-xxxl-4">
       <div class="thecard">
         <div class="card-img">
-          <!-- <img src="./assets/images/album-capa.jpg" width="300" height="300"> -->
-          <img [src]="album[0].file" width="300" height="300">
+          <img [src]="album?.fileUrl" width="300" height="300">
         </div>
-        <input type="file" name="file" id="file" class="inputfile" hidden="true" (change)="handleFileInput($event.target.files)" />
+        <input type="file" name="file" id="file" class="inputfile" hidden="true" (change)="handleFileInput($event, album[0])" />
         <label nbButton for="file" nbTooltip="Adicionar uma imagem">
           <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }" status="control" >
           </nb-icon>
@@ -15,16 +14,11 @@
         <div class="card-caption">
           <span class="date">Thursday, July 16, 2015</span>
           <br />
-          <span>{{album[0].nome}}</span>
-          <p>{{album[0].autor.nome}}</p>
-          <p>{{album[0].autor.nome}}</p>
+          <span>{{album.nome}}</span>
+          <p>{{album.autor.nome}}</p>
+          <p>{{album.autor.nome}}</p>
         </div>
       </div>
     </div>
   </div>
-  <nb-list-item *ngFor="let _ of placeholders">
-    <div class="col-md-12 col-lg-6 col-xxxl-4">
-      <ngx-ghost-loading></ngx-ghost-loading>
-    </div>
-  </nb-list-item>
 </div>

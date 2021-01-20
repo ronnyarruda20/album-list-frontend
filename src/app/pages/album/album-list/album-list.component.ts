@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Utils } from 'app/shared/utils/utls';
 import { environment } from 'environments/environment';
 import { AlbumService } from '../album.service';
+import { AlbumModel } from './../album.model';
 
 @Component({
   selector: 'ngx-album-list',
@@ -16,9 +18,9 @@ export class AlbumListComponent implements OnInit {
   length = 0;
   pageSize = 5;
   pageNumber = 0;
-  searchResults: Array<any>;
+  albums = new Array<AlbumModel>();
   placeholders: any;
-  fileToUpload: File = null;
+  albumModel: AlbumModel;
 
   constructor(
     private service: AlbumService,
@@ -34,50 +36,71 @@ export class AlbumListComponent implements OnInit {
     this.loadALbum(this.pageNumber, this.pageSize);
   }
 
+  setPageEvent(pageEvent: PageEvent) {
+    this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize)
+  }
+
   private loadALbum(pageNumber: number, pageSize: number) {
-    this.searchResults = [];
     this.placeholders = new Array(pageSize);
     this.service.getAllPaginate(pageNumber, pageSize, this.baseUrl, null)
       .subscribe(res => {
         if (res.contents.length > 0) {
-          this.searchResults = res.contents;
+          this.albums = res.contents;
           this.length = res.pageInfo.totalElements;
-          this.getImage(res.contents);
+          this.albums.forEach(p => p.fileUrl = this.getFileUrl(p.file))
         }
         this.placeholders = [];
       });
   }
 
-  setPageEvent(pageEvent: PageEvent) {
-    this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize)
+
+  private saveAlbum() {
+    console.log(JSON.stringify(this.albumModel))
+    this.service.save(this.albumModel, this.baseUrl)
+      .subscribe(res => {
+        console.log(res)
+        // this.albumModel = res;
+        // console.log(this.albumModel)
+      });
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-    console.log(this.fileToUpload)
+  handleFileInput(event: any, albumModel: AlbumModel) {
+    event.preventDefault();
+    this.albumModel = albumModel;
+    // this.albumModel.setFile(event.target.files.item(0));
+    this.albumModel.file = event.target.files.item(0);
+    // this.saveAlbum();
+    this.service.file(event.target.files.item(0), this.baseUrl)
+      .subscribe(res => {
+        console.log(res)
+      });
   }
 
-  getImage(albums: any) {
-    albums.forEach(p => {
-      p.forEach(m => {
-        if (m.imagem) {
-          this.service.getImage(m.imagem, this.baseUrl)
-            .subscribe(res => {
-              m.file = this.createImageUrl(res);
-            });
-        } else {
-          m.file = './assets/images/album-capa.jpg';
-        }
-      })
-    })
+  getFileUrl(file: string) {
+    if (Utils.hasValue(file)) {
+      return this.sanitizer.bypassSecurityTrustUrl(Utils.converterBlobToUrl(file, 'png'));
+    } else {
+      return './assets/images/no-image.png';
+    }
   }
 
 
-  createImageUrl(data: any) {
-    let blob = new Blob([data], { type: "image/png" });
-    let url = window.URL.createObjectURL(blob);
-    return this.sanitizer.bypassSecurityTrustUrl(url);
-  }
+  // getImage(albums: any) {
+  //   albums.forEach(p => {
+  //     console.log(p.file)
+  //     p.fileSrc = './assets/images/album-capa.jpg';
+  //     if (p.file) {
+  //       p.fileSrc = this.createImageUrl(p.file)
+  //     }
+
+  //   })
+  // }
+
+  // createImageUrl(data: any) {
+  //   let blob = new Blob([data], { type: "image/png" });
+  //   let url = window.URL.createObjectURL(blob);
+  //   return this.sanitizer.bypassSecurityTrustUrl(url);
+  // }
 
 
 
