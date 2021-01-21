@@ -1,24 +1,27 @@
 <mat-paginator [length]="length" [pageSize]="pageSize" (page)="setPageEvent($event)"> </mat-paginator>
 <div class="row">
-  <div *ngFor="let album of albums">
-    <div class="col-md-12 col-lg-6 col-xxxl-4">
-      <div class="thecard">
-        <div class="card-img">
-          <img [src]="album?.fileUrl" width="300" height="300">
-        </div>
-        <input type="file" name="file" id="file" class="inputfile" hidden="true" (change)="handleFileInput($event, album[0])" />
+  <div *ngFor="let album of albums; let i= index">
+    <a (click)="openAlbumDialogItem()">
+      <div class="col-md-12 col-lg-6 col-xxxl-4">
+        <div class="thecard">
+          <div class="card-img">
+            <img [src]="album?.fileUrl" width="300" height="300">
+          </div>
+          <!-- <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true" (change)="loadingAlbum(album)"  />
         <label nbButton for="file" nbTooltip="Adicionar uma imagem">
           <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }" status="control" >
           </nb-icon>
-        </label>
-        <div class="card-caption">
-          <span class="date">Thursday, July 16, 2015</span>
-          <br />
-          <span>{{album.nome}}</span>
-          <p>{{album.autor.nome}}</p>
-          <p>{{album.autor.nome}}</p>
+        </label> -->
+          <div class="card-caption">
+            <span class="date">Thursday, July 16, 2015</span>
+            <br />
+            <span>{{i}}</span>
+            <span>{{album.nome}}</span>
+            <p>{{album.autor.nome}}</p>
+            <p>{{album.autor.nome}}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   </div>
 </div>

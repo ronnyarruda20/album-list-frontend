@@ -10,7 +10,7 @@ import { AlbumModel } from './album.model';
 const httpOptions = {
   headers: new HttpHeaders(
     {
-      'Content-Type': 'multipart/form-data; boundary=---WebKitFormBoundaryE19zNvXGzXaLvS5C'
+      'Content-Type': 'application/json'
     })
 };
 
@@ -27,7 +27,7 @@ export class AlbumService implements OnInit {
 
   ngOnInit() { }
 
-  getAllPaginate(pageNumber: any, pageSize: any, endPoint: string, saerchTerm?: any): Observable<PaginationModel<AlbumModel>> {
+  list(pageNumber: any, pageSize: any, endPoint: string, saerchTerm?: any): Observable<PaginationModel<AlbumModel>> {
     return this.httpClient.get<any>(endPoint + '/list', {
       params: new HttpParams()
         .set('pageNumber', pageNumber.toString())
@@ -35,19 +35,22 @@ export class AlbumService implements OnInit {
     }).pipe();
   }
 
-  getImage(imagem: string, endPoint: string): Observable<any> {
-    return this.httpClient.get(endPoint + '/files/' + imagem, { responseType: 'arraybuffer' }).pipe();
-  }
+  // getImage(imagem: string, endPoint: string): Observable<any> {
+  //   return this.httpClient.get(endPoint + '/files/' + imagem, { responseType: 'arraybuffer' }).pipe();
+  // }
 
-  save(albumModel: AlbumModel, endPoint: string): Observable<AlbumModel> {
-    return this.httpClient.post<AlbumModel>(endPoint + '/save', albumModel).pipe();
-  }
-
-  file(file: File, endPoint: string): Observable<any> {
+  save(album: any, file: File, endPoint: string): Observable<AlbumModel> {
     let formData = new FormData();
-    formData.append('file', file, 'file');
-    console.log()
-    return this.httpClient.post<any>(endPoint + '/files/upload', formData).pipe();
+    formData.append('albumDto', album);
+    formData.append('file', file, file.name);
+    return this.httpClient.post<AlbumModel>(endPoint + '/save', formData).pipe();
+  }
+
+  file(file: File, id: string, endPoint: string): Observable<any> {
+    let formData = new FormData();
+    formData.append('extraParam', id);
+    formData.append('file', file, file.name);
+    return this.httpClient.post<any>(endPoint, formData).pipe();
   }
 
 }

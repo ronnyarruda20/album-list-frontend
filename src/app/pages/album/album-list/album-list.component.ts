@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { NbDialogService } from '@nebular/theme';
 import { Utils } from 'app/shared/utils/utls';
 import { environment } from 'environments/environment';
+import { AlbumItemComponent } from '../album-item/album-item.component';
 import { AlbumService } from '../album.service';
 import { AlbumModel } from './../album.model';
 
@@ -21,11 +23,17 @@ export class AlbumListComponent implements OnInit {
   albums = new Array<AlbumModel>();
   placeholders: any;
   albumModel: AlbumModel;
+  album: AlbumModel
+  file: File;
+
+  @ViewChild('inputFile')
+  inputFile: ElementRef;
 
   constructor(
     private service: AlbumService,
     private sanitizer: DomSanitizer,
     public activatedRoute: ActivatedRoute,
+    private dialogService: NbDialogService,
   ) {
     this.activatedRoute.data.subscribe(data => {
       this.baseUrl = environment.api + data.endPoint
@@ -41,39 +49,29 @@ export class AlbumListComponent implements OnInit {
   }
 
   private loadALbum(pageNumber: number, pageSize: number) {
-    this.placeholders = new Array(pageSize);
-    this.service.getAllPaginate(pageNumber, pageSize, this.baseUrl, null)
+    this.service.list(pageNumber, pageSize, this.baseUrl, null)
       .subscribe(res => {
         if (res.contents.length > 0) {
           this.albums = res.contents;
           this.length = res.pageInfo.totalElements;
-          this.albums.forEach(p => p.fileUrl = this.getFileUrl(p.file))
+          this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
         }
-        this.placeholders = [];
       });
   }
 
-
-  private saveAlbum() {
-    console.log(JSON.stringify(this.albumModel))
-    this.service.save(this.albumModel, this.baseUrl)
-      .subscribe(res => {
-        console.log(res)
-        // this.albumModel = res;
-        // console.log(this.albumModel)
-      });
+  handleFileInput(event: any) {
+ 
+    this.file = event.target.files.item(0);
+    // this.service.file(this.file, String(id), this.baseUrl)
+    //   .subscribe(res => {
+    //     console.log(res)
+    //   });
+      this.clearImage();
   }
 
-  handleFileInput(event: any, albumModel: AlbumModel) {
-    event.preventDefault();
-    this.albumModel = albumModel;
-    // this.albumModel.setFile(event.target.files.item(0));
-    this.albumModel.file = event.target.files.item(0);
-    // this.saveAlbum();
-    this.service.file(event.target.files.item(0), this.baseUrl)
-      .subscribe(res => {
-        console.log(res)
-      });
+  loadingAlbum(album: AlbumModel){
+    // this.albumModel = album
+    console.log(album)
   }
 
   getFileUrl(file: string) {
@@ -84,23 +82,13 @@ export class AlbumListComponent implements OnInit {
     }
   }
 
+  openAlbumDialogItem() {
+    this.dialogService.open(AlbumItemComponent);
+  }
 
-  // getImage(albums: any) {
-  //   albums.forEach(p => {
-  //     console.log(p.file)
-  //     p.fileSrc = './assets/images/album-capa.jpg';
-  //     if (p.file) {
-  //       p.fileSrc = this.createImageUrl(p.file)
-  //     }
-
-  //   })
-  // }
-
-  // createImageUrl(data: any) {
-  //   let blob = new Blob([data], { type: "image/png" });
-  //   let url = window.URL.createObjectURL(blob);
-  //   return this.sanitizer.bypassSecurityTrustUrl(url);
-  // }
+  clearImage() {
+    this.inputFile.nativeElement.value = "";
+  }
 
 
 
