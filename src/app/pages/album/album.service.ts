@@ -1,5 +1,3 @@
-import { HttpEvent } from '@angular/common/http';
-import { HttpRequest } from '@angular/common/http';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -39,14 +37,11 @@ export class AlbumService implements OnInit {
   //   return this.httpClient.get(endPoint + '/files/' + imagem, { responseType: 'arraybuffer' }).pipe();
   // }
 
-  save(album: any, file: File, endPoint: string): Observable<AlbumModel> {
-    let formData = new FormData();
-    formData.append('albumDto', album);
-    formData.append('file', file, file.name);
-    return this.httpClient.post<AlbumModel>(endPoint + '/save', formData).pipe();
+  save(album: AlbumModel,endPoint: string): Observable<AlbumModel> {
+    return this.httpClient.post<AlbumModel>(endPoint + '/save', album).pipe();
   }
 
-  file(file: File, id: string, endPoint: string): Observable<any> {
+  saveImage(file: File, id: string, endPoint: string): Observable<any> {
     let formData = new FormData();
     formData.append('extraParam', id);
     formData.append('file', file, file.name);

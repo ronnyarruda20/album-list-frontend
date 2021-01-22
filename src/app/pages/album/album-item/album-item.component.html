@@ -1,15 +1,51 @@
 <nb-card>
-    <nb-card-header>teste</nb-card-header>
     <nb-card-body>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras convallis tincidunt tincidunt.
-      Vestibulum vulputate maximus massa vel tristique. Suspendisse potenti. Duis aliquet purus sed dictum dictum.
-      Donec fringilla, purus at fermentum imperdiet, velit enim malesuada turpis, quis luctus arcu arcu nec orci.
-      Duis eu mattis felis. Quisque sollicitudin elementum nunc vel tincidunt. Vestibulum egestas mi nec
-      iaculis varius. Morbi in risus sed sapien ultricies feugiat. Quisque pulvinar mattis purus,
-      in aliquet massa aliquet et.
+        <form [formGroup]="form">
+
+            <div class="col-md-12 col-lg-6 col-xxxl-4">
+                <div class="thecard">
+                    <div class="card-img">
+                        <img [src]="albumModel.fileUrl" width="300" height="300">
+                        <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true"
+                            (change)="handleFileInput($event)" />
+                        <label nbButton for="file" nbTooltip="Adicionar uma imagem">
+                            <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }"
+                                status="control">
+                            </nb-icon>
+                        </label>
+                    </div>
+                    <!-- <div class="card-caption">
+                        <span class="date">Thursday, July 16, 2015</span>
+                        <br />
+
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-12 col-xxxl-4">
+                <input type="text" nbInput fullWidth id="inputName" placeholder="Nome" formControlName="nome">
+                <ng-container *ngIf="form.get('nome').invalid && form.get('nome').touched">
+                    <p class="caption status-danger" *ngIf="form.get('nome').errors.required">
+                        Nome é obrigatório
+                    </p>
+                </ng-container>
+            </div>
+
+            <div class="col-md-12 col-lg-12 col-xxxl-4">
+                <ng-container formGroupName="autor">
+                    <input type="text" nbInput fullWidth id="inputName" placeholder="Nome" formControlName="nome">
+                    <ng-container *ngIf="form.get('nome').invalid && form.get('nome').touched">
+                        <p class="caption status-danger" *ngIf="form.get('nome').errors.required">
+                            Nome é obrigatório
+                        </p>
+                    </ng-container>
+                </ng-container>
+            </div>
+
+
+        </form>
     </nb-card-body>
     <nb-card-footer>
-      <button nbButton hero status="primary" (click)="dismiss()">Dismiss Dialog</button>
+        <button nbButton hero status="primary" (click)="dismiss()">Dismiss Dialog</button>
     </nb-card-footer>
-  </nb-card>
-  
+</nb-card>

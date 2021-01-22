@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -21,13 +21,6 @@ export class AlbumListComponent implements OnInit {
   pageSize = 5;
   pageNumber = 0;
   albums = new Array<AlbumModel>();
-  placeholders: any;
-  albumModel: AlbumModel;
-  album: AlbumModel
-  file: File;
-
-  @ViewChild('inputFile')
-  inputFile: ElementRef;
 
   constructor(
     private service: AlbumService,
@@ -59,21 +52,6 @@ export class AlbumListComponent implements OnInit {
       });
   }
 
-  handleFileInput(event: any) {
- 
-    this.file = event.target.files.item(0);
-    // this.service.file(this.file, String(id), this.baseUrl)
-    //   .subscribe(res => {
-    //     console.log(res)
-    //   });
-      this.clearImage();
-  }
-
-  loadingAlbum(album: AlbumModel){
-    // this.albumModel = album
-    console.log(album)
-  }
-
   getFileUrl(file: string) {
     if (Utils.hasValue(file)) {
       return this.sanitizer.bypassSecurityTrustUrl(Utils.converterBlobToUrl(file, 'png'));
@@ -82,14 +60,20 @@ export class AlbumListComponent implements OnInit {
     }
   }
 
-  openAlbumDialogItem() {
-    this.dialogService.open(AlbumItemComponent);
-  }
+  openAlbumDialogItem(albumModel: AlbumModel) {
 
-  clearImage() {
-    this.inputFile.nativeElement.value = "";
+    this.dialogService.open(AlbumItemComponent, {
+      context: {
+        albumModel: Object.assign(AlbumModel, albumModel),
+        baseUrl: this.baseUrl
+      },
+      closeOnBackdropClick: false,
+    }).onClose.subscribe(res => {
+      if (res) {
+        this.loadALbum(this.pageNumber, this.pageSize);
+      }
+    });
   }
-
 
 
 }

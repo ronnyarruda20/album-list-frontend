@@ -1,9 +1,10 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbButtonModule, NbCardModule, NbIconModule, NbLayoutModule, NbTooltipModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbLayoutModule, NbTooltipModule } from '@nebular/theme';
 import { ThemeModule } from 'app/@theme/theme.module';
 import { SafePipeModule } from 'safe-pipe';
 import { AlbumItemComponent } from './album-item/album-item.component';
@@ -20,17 +21,22 @@ import { AlbumService } from './album.service';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     AlbumRoutingModule,
     ThemeModule,
+    NbInputModule,
     NbCardModule,
     NbLayoutModule,
     NbButtonModule,
+    FormsModule,
     NbIconModule,
     NbTooltipModule,
     NbEvaIconsModule,
     SafePipeModule,
     ScrollingModule,
     MatPaginatorModule,
+    NbDialogModule.forChild(),
   ],
   providers: [
     AlbumService,
