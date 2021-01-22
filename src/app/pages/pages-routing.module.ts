@@ -14,11 +14,6 @@ const routes: Routes = [{
         .then(m => m.AlbumModule),
     },
     {
-      path: 'upload',
-      loadChildren: () => import('./upload/upload.module')
-        .then(m => m.UploadModule),
-    },
-    {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
         .then(m => m.LayoutModule),
