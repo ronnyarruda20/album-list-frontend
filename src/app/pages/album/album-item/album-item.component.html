@@ -46,6 +46,10 @@
         </form>
     </nb-card-body>
     <nb-card-footer>
-        <button nbButton hero status="primary" (click)="dismiss()">Dismiss Dialog</button>
+        <div class="buttons-row">
+            <button nbButton hero status="primary" (click)="saveAlbum()" nbTooltip="Salvar registro">Salvar</button>
+            <button nbButton hero status="primary" (click)="dismiss()" nbTooltip="Fechar tela">Fechar</button>
+            <button nbButton hero status="danger" (click)="deleteVerification()" nbTooltip="Excluir registro">Excluir</button>
+        </div>
     </nb-card-footer>
 </nb-card>

@@ -8,7 +8,7 @@ import { AlbumModel } from './album.model';
 const httpOptions = {
   headers: new HttpHeaders(
     {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     })
 };
 
@@ -37,8 +37,14 @@ export class AlbumService implements OnInit {
   //   return this.httpClient.get(endPoint + '/files/' + imagem, { responseType: 'arraybuffer' }).pipe();
   // }
 
-  save(album: AlbumModel,endPoint: string): Observable<AlbumModel> {
+  save(album: AlbumModel, endPoint: string): Observable<AlbumModel> {
     return this.httpClient.post<AlbumModel>(endPoint + '/save', album).pipe();
+  }
+
+  delete(id: string, endPoint: string): Observable<AlbumModel> {
+    let formData = new FormData();
+    formData.append('id', id);
+    return this.httpClient.post<any>(endPoint + '/delete', formData).pipe();
   }
 
   saveImage(file: File, id: string, endPoint: string): Observable<any> {

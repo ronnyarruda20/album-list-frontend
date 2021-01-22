@@ -1,11 +1,13 @@
 import { AlbumModel } from './../album.model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { Utils } from 'app/shared/utils/utls';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlbumService } from '../album.service';
+import { TemplateRef } from '@angular/core';
+import { RemoveDialogComponent } from 'app/shared/dialog/remove-dialog/remove-dialog.component';
 
 @Component({
   selector: 'ngx-album-item',
@@ -21,11 +23,13 @@ export class AlbumItemComponent implements OnInit {
   form: FormGroup;
   baseUrl: string;
   albumModel: AlbumModel
+  refresh: boolean = false
 
   constructor(
     private service: AlbumService,
     private sanitizer: DomSanitizer,
     private formBuilder: FormBuilder,
+    private dialogService: NbDialogService,
     protected ref: NbDialogRef<AlbumItemComponent>,
   ) { }
 
@@ -64,26 +68,42 @@ export class AlbumItemComponent implements OnInit {
   }
 
   saveImage() {
-    if(this.baseUrl){
-      this.service.saveImage(this.file, String(this.albumModel.id), this.baseUrl).subscribe( res => {
-        console.log('Retorno da imagem')
-        console.log(res)
-      })
-    }
+    this.service.saveImage(this.file, String(this.albumModel.id), this.baseUrl).subscribe(res => {
+      if (res) {
+        this.refresh = true;
+      }
+    })
   }
 
   saveAlbum() {
-    // this.service.list(pageNumber, pageSize, this.baseUrl, null)
-    //   .subscribe(res => {
-    //     if (res.contents.length > 0) {
-    //       this.albums = res.contents;
-    //       this.length = res.pageInfo.totalElements;
-    //       this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
-    //     }
-    //   });
+    this.service.save(this.form.value, this.baseUrl).subscribe(res => {
+      if (res) {
+        this.refresh = true;
+        this.dismiss();
+      }
+    })
+  }
+
+  deleteAlbum() {
+    this.service.delete(String(this.albumModel.id), this.baseUrl)
+      .subscribe(res => {
+        if (res) {
+          this.refresh = true;
+          this.dismiss();
+        }
+      });
   }
 
   dismiss() {
-    this.ref.close();
+    this.ref.close(this.refresh);
+  }
+
+  deleteVerification() {
+    this.dialogService.open(RemoveDialogComponent)
+      .onClose.subscribe(res => {
+        if (res) {
+          this.deleteAlbum()
+        }
+      })
   }
 }

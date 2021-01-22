@@ -118,3 +118,8 @@ h5 {
   padding      : 1px 6px;
   border-radius: 50em;
 }
+
+::ng-deep nb-spinner {
+  font-size: 4rem !important;
+  background-color: transparent !important;
+}

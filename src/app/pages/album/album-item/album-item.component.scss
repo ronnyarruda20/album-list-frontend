@@ -10,16 +10,26 @@ form {
 }
 
 @include nb-install-component() {
+
+  .buttons-row {
+    margin: -0.5rem;
+  }
+
+  button[nbButton] {
+    margin: 0.5rem;
+  }
+
+
   nb-card {
     max-width : 800px;
     max-height: 600px;
   }
 
   .thecard {
-    width     : 300px;
-    height    : 300px;
-    margin    : 8% 2%;
-    box-shadow: nb-theme(slide-out-shadow-color);
+    width           : 300px;
+    height          : 300px;
+    margin          : 8% 2%;
+    box-shadow      : nb-theme(slide-out-shadow-color);
     display         : block;
     background-color: white;
     border-radius   : 4px;

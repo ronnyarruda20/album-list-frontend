@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
+import { PageInfo } from 'app/shared/model/pagination.model';
 import { Utils } from 'app/shared/utils/utls';
 import { environment } from 'environments/environment';
 import { AlbumItemComponent } from '../album-item/album-item.component';
@@ -20,6 +21,8 @@ export class AlbumListComponent implements OnInit {
   length = 0;
   pageSize = 5;
   pageNumber = 0;
+  pagInfo = new PageInfo
+  loadingShow: boolean = true
   albums = new Array<AlbumModel>();
 
   constructor(
@@ -42,12 +45,15 @@ export class AlbumListComponent implements OnInit {
   }
 
   private loadALbum(pageNumber: number, pageSize: number) {
+    this.loadingShow = true
     this.service.list(pageNumber, pageSize, this.baseUrl, null)
-      .subscribe(res => {
-        if (res.contents.length > 0) {
-          this.albums = res.contents;
-          this.length = res.pageInfo.totalElements;
-          this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
+    .subscribe(res => {
+      if (res.contents.length > 0) {
+        this.albums = res.contents;
+        this.pagInfo = res.pageInfo
+        this.length = this.pagInfo.totalElements;
+        this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
+        this.loadingShow = false
         }
       });
   }
@@ -70,7 +76,7 @@ export class AlbumListComponent implements OnInit {
       closeOnBackdropClick: false,
     }).onClose.subscribe(res => {
       if (res) {
-        this.loadALbum(this.pageNumber, this.pageSize);
+        this.loadALbum(this.pagInfo.pageNumber, this.pagInfo.pageSize);
       }
     });
   }
