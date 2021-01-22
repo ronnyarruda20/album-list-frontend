@@ -5,6 +5,7 @@
  */
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -22,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ErrorInterceptor } from './security/helpers/error.interceptor';
 import { JwtInterceptor } from './security/helpers/jwt.interceptor';
+import { getPortuguesPaginatorIntl } from './shared/helpers/table-translate';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +47,7 @@ import { JwtInterceptor } from './security/helpers/jwt.interceptor';
   providers:[
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() },
   ],
   bootstrap: [AppComponent],
 })

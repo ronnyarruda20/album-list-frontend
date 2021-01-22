@@ -1,0 +1,19 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  .buttons-row {
+    margin: -0.5rem;
+  }
+
+  button[nbButton] {
+    margin: 0.5rem;
+  }
+  
+  input {
+    width: 100%;
+  }
+
+  .cancel {
+    margin-right: 1rem;
+  }
+}
