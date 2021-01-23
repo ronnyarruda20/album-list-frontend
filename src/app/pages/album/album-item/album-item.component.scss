@@ -9,8 +9,7 @@ form {
   }
 }
 
-@include nb-install-component() {
-
+@include nb-install-component {
   .buttons-row {
     margin: -0.5rem;
   }

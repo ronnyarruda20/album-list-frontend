@@ -35,17 +35,19 @@ export class AlbumItemComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.createObject();
+
     if (this.albumModel) {
       this.albumModel.fileUrl = this.getFileUrl(this.albumModel.file);
+      this.form.patchValue(this.albumModel)
     }
-    this.createObject();
-    this.form.patchValue(this.albumModel)
   }
 
   createObject() {
     this.form = this.formBuilder.group({
       id: [],
       nome: [null, Validators.required],
+      file: [null],
       autor: this.formBuilder.group({
         id: [],
         nome: [null, Validators.required]
@@ -55,8 +57,10 @@ export class AlbumItemComponent implements OnInit {
 
   handleFileInput(event: any) {
     this.file = event.target.files.item(0);
+    Utils.getBase64(this.file).then(res => {
+      this.form.controls.file.setValue(res);
+    })
     this.albumModel.fileUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.file));
-    this.saveImage();
   }
 
   getFileUrl(file: string) {

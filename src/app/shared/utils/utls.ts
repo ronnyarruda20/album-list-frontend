@@ -1,9 +1,8 @@
 export class Utils {
-    
-   public static hasValue(value: string){
+
+    public static hasValue(value: string) {
         return (value !== null && value !== undefined);
     }
-
 
     public static converterToBLob(b64Data, contentType = '', sliceSize = 512) {
         const byteCharacters = atob(b64Data);
@@ -30,4 +29,26 @@ export class Utils {
         return URL.createObjectURL(blob);
     }
 
+    // public static getBase642(fileResquest: File) {
+    //     let modelvalue: string | ArrayBuffer;
+    //     let reader = new FileReader();
+    //     reader.readAsDataURL(fileResquest);
+    //     reader.onload = function () {
+    //         console.log(reader.result)
+    //         modelvalue = reader.result;
+    //     };
+    //     reader.onerror = function (error) {
+    //         console.log('Error: ', error);
+    //     };
+    //     return modelvalue.toString();
+    // }
+
+    public static getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
 }

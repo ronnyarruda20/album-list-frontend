@@ -47,13 +47,13 @@ export class AlbumListComponent implements OnInit {
   private loadALbum(pageNumber: number, pageSize: number) {
     this.loadingShow = true
     this.service.list(pageNumber, pageSize, this.baseUrl, null)
-    .subscribe(res => {
-      if (res.contents.length > 0) {
-        this.albums = res.contents;
-        this.pagInfo = res.pageInfo
-        this.length = this.pagInfo.totalElements;
-        this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
-        this.loadingShow = false
+      .subscribe(res => {
+        if (res.contents.length > 0) {
+          this.albums = res.contents;
+          this.pagInfo = res.pageInfo
+          this.length = this.pagInfo.totalElements;
+          this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
+          this.loadingShow = false
         }
       });
   }
@@ -66,11 +66,11 @@ export class AlbumListComponent implements OnInit {
     }
   }
 
-  openAlbumDialogItem(albumModel: AlbumModel) {
-
+  openAlbumItemDialog(albumModel: AlbumModel) {
+    let newAlbumModel = albumModel ? Object.assign(AlbumModel, albumModel) : null;
     this.dialogService.open(AlbumItemComponent, {
       context: {
-        albumModel: Object.assign(AlbumModel, albumModel),
+        albumModel: newAlbumModel,
         baseUrl: this.baseUrl
       },
       closeOnBackdropClick: false,
@@ -81,6 +81,9 @@ export class AlbumListComponent implements OnInit {
     });
   }
 
+  openAddAlbumItemDialog() {
+    this.openAlbumItemDialog(null)
+  }
 
 }
 

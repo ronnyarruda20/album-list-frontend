@@ -5,24 +5,19 @@
             <div class="col-md-12 col-lg-6 col-xxxl-4">
                 <div class="thecard">
                     <div class="card-img">
-                        <img [src]="albumModel.fileUrl" width="300" height="300">
-                        <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true"
-                            (change)="handleFileInput($event)" />
-                        <label nbButton for="file" nbTooltip="Adicionar uma imagem">
-                            <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }"
-                                status="control">
-                            </nb-icon>
-                        </label>
+                        <img [src]="albumModel?.fileUrl" width="300" height="300">
                     </div>
-                    <!-- <div class="card-caption">
-                        <span class="date">Thursday, July 16, 2015</span>
-                        <br />
-
-                    </div> -->
                 </div>
+                <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true"
+                    (change)="handleFileInput($event)" />
+                <label nbButton for="file" nbTooltip="Adicionar uma imagem">
+                    <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }"
+                        status="control">
+                    </nb-icon>
+                </label>
             </div>
 
-            <div class="col-md-12 col-lg-12 col-xxxl-4">
+            <div class="col-md-12 col-lg-12 col-xxxl-12">
                 <input type="text" nbInput fullWidth id="inputName" placeholder="Nome" formControlName="nome">
                 <ng-container *ngIf="form.get('nome').invalid && form.get('nome').touched">
                     <p class="caption status-danger" *ngIf="form.get('nome').errors.required">
@@ -31,7 +26,7 @@
                 </ng-container>
             </div>
 
-            <div class="col-md-12 col-lg-12 col-xxxl-4">
+            <div class="col-md-12 col-lg-12 col-xxxl-12">
                 <ng-container formGroupName="autor">
                     <input type="text" nbInput fullWidth id="inputName" placeholder="Nome" formControlName="nome">
                     <ng-container *ngIf="form.get('nome').invalid && form.get('nome').touched">
