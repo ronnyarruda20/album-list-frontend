@@ -1,4 +1,5 @@
 import { SafeUrl } from "@angular/platform-browser"
+import { AutorModel } from "../autor/autor.model"
 
 
 export class AlbumModel {
@@ -8,10 +9,4 @@ export class AlbumModel {
     autor: AutorModel
     fileUrl: SafeUrl
     file: string
-
-}
-
-export class AutorModel {
-    id: number
-    nome: string
 }

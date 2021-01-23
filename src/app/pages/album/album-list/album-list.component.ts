@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
 import { PageInfo } from 'app/shared/model/pagination.model';
 import { Utils } from 'app/shared/utils/utls';
-import { environment } from 'environments/environment';
 import { AlbumItemComponent } from '../album-item/album-item.component';
 import { AlbumService } from '../album.service';
 import { AlbumModel } from './../album.model';
@@ -17,7 +16,7 @@ import { AlbumModel } from './../album.model';
 })
 export class AlbumListComponent implements OnInit {
 
-  private baseUrl: string;
+
   length = 0;
   pageSize = 5;
   pageNumber = 0;
@@ -31,9 +30,7 @@ export class AlbumListComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     private dialogService: NbDialogService,
   ) {
-    this.activatedRoute.data.subscribe(data => {
-      this.baseUrl = environment.api + data.endPoint
-    });
+
   }
 
   ngOnInit(): void {
@@ -46,7 +43,7 @@ export class AlbumListComponent implements OnInit {
 
   private loadALbum(pageNumber: number, pageSize: number) {
     this.loadingShow = true
-    this.service.list(pageNumber, pageSize, this.baseUrl, null)
+    this.service.list(pageNumber, pageSize,  null)
       .subscribe(res => {
         if (res.contents.length > 0) {
           this.albums = res.contents;
@@ -70,8 +67,7 @@ export class AlbumListComponent implements OnInit {
     let newAlbumModel = albumModel ? Object.assign(AlbumModel, albumModel) : null;
     this.dialogService.open(AlbumItemComponent, {
       context: {
-        albumModel: newAlbumModel,
-        baseUrl: this.baseUrl
+        albumModel: newAlbumModel
       },
       closeOnBackdropClick: false,
     }).onClose.subscribe(res => {

@@ -1,13 +1,12 @@
-import { AlbumModel } from './../album.model';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
-import { FormBuilder, Validators } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { Utils } from 'app/shared/utils/utls';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AlbumService } from '../album.service';
-import { TemplateRef } from '@angular/core';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { RemoveDialogComponent } from 'app/shared/dialog/remove-dialog/remove-dialog.component';
+import { Utils } from 'app/shared/utils/utls';
+import { environment } from 'environments/environment';
+import { AlbumService } from '../album.service';
+import { AlbumModel } from './../album.model';
 
 @Component({
   selector: 'ngx-album-item',
@@ -16,12 +15,8 @@ import { RemoveDialogComponent } from 'app/shared/dialog/remove-dialog/remove-di
 })
 export class AlbumItemComponent implements OnInit {
 
-  @ViewChild('inputFile')
-  inputFile: ElementRef;
-
   file: File;
   form: FormGroup;
-  baseUrl: string;
   albumModel: AlbumModel
   refresh: boolean = false
 
@@ -72,7 +67,7 @@ export class AlbumItemComponent implements OnInit {
   }
 
   saveImage() {
-    this.service.saveImage(this.file, String(this.albumModel.id), this.baseUrl).subscribe(res => {
+    this.service.saveImage(this.file, String(this.albumModel.id)).subscribe(res => {
       if (res) {
         this.refresh = true;
       }
@@ -80,7 +75,7 @@ export class AlbumItemComponent implements OnInit {
   }
 
   saveAlbum() {
-    this.service.save(this.form.value, this.baseUrl).subscribe(res => {
+    this.service.save(this.form.value).subscribe(res => {
       if (res) {
         this.refresh = true;
         this.dismiss();
@@ -89,7 +84,7 @@ export class AlbumItemComponent implements OnInit {
   }
 
   deleteAlbum() {
-    this.service.delete(String(this.albumModel.id), this.baseUrl)
+    this.service.delete(String(this.albumModel.id))
       .subscribe(res => {
         if (res) {
           this.refresh = true;

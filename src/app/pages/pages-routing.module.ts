@@ -14,6 +14,11 @@ const routes: Routes = [{
         .then(m => m.AlbumModule),
     },
     {
+      path: 'autor',
+      loadChildren: () => import('./autor/autor.module')
+        .then(m => m.AutorsModule),
+    },
+    {
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
         .then(m => m.LayoutModule),

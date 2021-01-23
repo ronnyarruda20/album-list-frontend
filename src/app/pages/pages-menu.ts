@@ -8,9 +8,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/album/list'
   },
   {
-    title: 'Upload',
-    icon: 'keypad-outline',
-    link: '/pages/upload'
+    title: 'Autores',
+    icon: 'list-outline',
+    link: '/pages/autor/list'
   },
   {
     title: 'Layout',
