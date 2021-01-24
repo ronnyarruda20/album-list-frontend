@@ -19,6 +19,7 @@ export class AlbumItemComponent implements OnInit {
   form: FormGroup;
   albumModel: AlbumModel
   refresh: boolean = false
+  loadingShow: boolean = false
   autors = new Array<AutorModel>();
   autorNome = new FormControl();
   new: boolean = true;
@@ -83,11 +84,13 @@ export class AlbumItemComponent implements OnInit {
 
 
   saveAlbum() {
+    this.loadingShow = true;
     this.service.save(this.form.value).subscribe(res => {
       if (res) {
         this.refresh = true;
         this.dismiss();
       }
+      this.loadingShow = false;
     })
   }
 

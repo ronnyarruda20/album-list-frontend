@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbSearchService } from '@nebular/theme';
 import { PageInfo } from 'app/shared/model/pagination.model';
 import { Utils } from 'app/shared/utils/utls';
 import { AlbumItemComponent } from '../album-item/album-item.component';
@@ -16,41 +16,56 @@ import { AlbumModel } from './../album.model';
 })
 export class AlbumListComponent implements OnInit {
 
-
-  length = 0;
-  pageSize = 5;
-  pageNumber = 0;
   pagInfo = new PageInfo
   loadingShow: boolean = true
   albums = new Array<AlbumModel>();
+  searchTerm: string = null;
 
   constructor(
     private service: AlbumService,
     private sanitizer: DomSanitizer,
     public activatedRoute: ActivatedRoute,
+    private searchService: NbSearchService,
     private dialogService: NbDialogService,
   ) {
 
   }
 
   ngOnInit(): void {
-    this.loadALbum(this.pageNumber, this.pageSize);
+    this.loadALbum(this.pagInfo.pageNumber, this.pagInfo.pageSize);
+    this.loadSearch();
   }
 
   setPageEvent(pageEvent: PageEvent) {
-    this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize)
+    this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize, this.searchTerm)
   }
 
-  private loadALbum(pageNumber: number, pageSize: number) {
+  loadSearch() {
+    this.searchService.onSearchSubmit()
+      .subscribe((data: any) => {
+        this.pagInfo = new PageInfo
+        this.searchTerm = data.term;
+        this.loadALbum(0, 5, this.searchTerm);
+      })
+  }
+
+  clearSearch() {
+    if (this.searchTerm) {
+      this.searchTerm = null;
+      // this.pagInfo = new 
+      this.loadALbum(0, 5, this.searchTerm);
+    }
+  }
+
+  private loadALbum(pageNumber: number, pageSize: number, searchTerm?: string) {
     this.loadingShow = true
-    this.service.list(pageNumber, pageSize,  null)
+    this.service.list(pageNumber, pageSize, searchTerm)
       .subscribe(res => {
+        this.albums = res.contents;
+        this.pagInfo = res.pageInfo
+        this.loadingShow = false
         if (res.contents.length > 0) {
-          this.albums = res.contents;
-          this.pagInfo = res.pageInfo
-          this.length = this.pagInfo.totalElements;
           this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
-          this.loadingShow = false
         }
       });
   }

@@ -1,4 +1,19 @@
-<mat-paginator [length]="length" [pageSize]="pageSize" (page)="setPageEvent($event)"> </mat-paginator>
+<nb-card>
+  <nb-card-header class="row">
+    <div class="col-md-6 col-lg-6 col-sd-12">
+      <nb-search type="rotate-layout" tag="rotate-layout" placeholder="Buscar..." hint="Pressione Enter para pesquisar">
+      </nb-search>
+      <button class="limpar" nbButton ghost (click)="clearSearch()" [hidden]="!searchTerm" nbTooltip="Limpar termo pesquisado: {{searchTerm}}">Limpar</button>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sd-12">
+      <mat-paginator [length]="pagInfo.totalElements" [pageSize]="pagInfo.pageSize" (page)="setPageEvent($event)">
+      </mat-paginator>
+    </div>
+  </nb-card-header>
+  <nb-card-body *ngIf="pagInfo.totalElements == 0">
+    <nb-alert outline="danger">Nenhum registro encontrado</nb-alert>
+  </nb-card-body>
+</nb-card>
 <div class="row" [nbSpinner]="loadingShow" nbSpinnerSize="giant" nbSpinnerStatus="primary">
   <div *ngFor="let album of albums">
     <a (click)="openAlbumItemDialog(album)">
@@ -8,7 +23,6 @@
             <img [src]="album?.fileUrl" width="300" height="300">
           </div>
           <div class="card-caption">
-            <!-- <span class="date">Thursday, July 16, 2015</span> -->
             <br />
             <p>{{album.nome}}</p>
             <button nbButton [shape]="'round'" [size]="tiny" disabled>{{album.autor.nome}}</button>

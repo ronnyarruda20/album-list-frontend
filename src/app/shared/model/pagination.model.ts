@@ -5,9 +5,9 @@ export class PaginationModel<T>{
 
 export class PageInfo {
     numberOfElements: number
-    pageNumber: number
-    pageSize: number
-    totalElements: number
+    pageNumber: number = 0
+    pageSize: number = 5
+    totalElements: number = 0
     totalPages: number
 }
 

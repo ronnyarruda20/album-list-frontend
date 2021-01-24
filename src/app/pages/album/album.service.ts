@@ -18,15 +18,17 @@ export class AlbumService implements OnInit {
 
   constructor(
     public httpClient: HttpClient,
-    private autorService: AutorService, 
+    private autorService: AutorService,
     public activatedRoute?: ActivatedRoute,
   ) { }
 
   ngOnInit() { }
 
-  list(pageNumber: any, pageSize: any, saerchTerm?: any): Observable<PaginationModel<AlbumModel>> {
+  list(pageNumber: any, pageSize: any, searchTerm: string = null): Observable<PaginationModel<AlbumModel>> {
+    let paramn = searchTerm ? 'searchTerm' : null;
     return this.httpClient.get<any>(this.baseUrl + '/list', {
       params: new HttpParams()
+        .set(paramn, searchTerm)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
     }).pipe();
@@ -50,7 +52,7 @@ export class AlbumService implements OnInit {
   }
 
   listAutor(): Observable<AutorModel[]> {
-   return this.autorService.list().pipe();
+    return this.autorService.list().pipe();
   }
 
 }
