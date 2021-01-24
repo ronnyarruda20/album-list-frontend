@@ -1,17 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaginationModel } from 'app/shared/model/pagination.model';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
+import { AutorModel } from '../autor/autor.model';
+import { AutorService } from '../autor/autor.service';
 import { AlbumModel } from './album.model';
-
-const httpOptions = {
-  headers: new HttpHeaders(
-    {
-      'Content-Type': 'application/json',
-    })
-};
 
 
 @Injectable({
@@ -23,6 +18,7 @@ export class AlbumService implements OnInit {
 
   constructor(
     public httpClient: HttpClient,
+    private autorService: AutorService, 
     public activatedRoute?: ActivatedRoute,
   ) { }
 
@@ -51,6 +47,10 @@ export class AlbumService implements OnInit {
     formData.append('extraParam', id);
     formData.append('file', file, file.name);
     return this.httpClient.post<any>(this.baseUrl, formData).pipe();
+  }
+
+  listAutor(): Observable<AutorModel[]> {
+   return this.autorService.list().pipe();
   }
 
 }

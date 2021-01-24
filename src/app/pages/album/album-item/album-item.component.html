@@ -11,40 +11,39 @@
                 <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true"
                     (change)="handleFileInput($event)" />
                 <label nbButton for="file" nbTooltip="Adicionar uma imagem">
-                    <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }"
-                        status="control">
+                    <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }" status="control">
                     </nb-icon>
                 </label>
             </div>
 
             <div class="col-md-12 col-lg-12 col-xxxl-12">
-                <input type="text" nbInput fullWidth id="inputName" placeholder="Nome" formControlName="nome">
+                <input type="text" nbInput fullWidth id="inputName" placeholder="Nome do Álbum" formControlName="nome">
                 <ng-container *ngIf="form.get('nome').invalid && form.get('nome').touched">
                     <p class="caption status-danger" *ngIf="form.get('nome').errors.required">
-                        Nome é obrigatório
+                        Nome do álbum é obrigatório
                     </p>
                 </ng-container>
             </div>
 
             <div class="col-md-12 col-lg-12 col-xxxl-12">
-                <ng-container formGroupName="autor">
-                    <input type="text" nbInput fullWidth id="inputName" placeholder="Nome" formControlName="nome">
-                    <ng-container *ngIf="form.get('nome').invalid && form.get('nome').touched">
-                        <p class="caption status-danger" *ngIf="form.get('nome').errors.required">
-                            Nome é obrigatório
-                        </p>
-                    </ng-container>
+                <nb-select [formControl]="autorNome" fullWidth  placeholder="Nome do Autor">
+                    <nb-option *ngFor="let a of autors" [value]="a.id"> {{ a.nome }}</nb-option>
+                </nb-select>
+                <ng-container *ngIf="form.get('autor').get('nome').invalid && autorNome.touched">
+                    <p class="caption status-danger" *ngIf="form.get('autor').get('nome').errors.required">
+                        Nome do autor é obrigatório
+                    </p>
                 </ng-container>
             </div>
 
-
-        </form>
+        </form><br/><br/>
     </nb-card-body>
     <nb-card-footer>
         <div class="buttons-row">
-            <button nbButton hero status="primary" (click)="saveAlbum()" nbTooltip="Salvar registro">Salvar</button>
+            <button nbButton hero status="primary" (click)="saveAlbum()" nbTooltip="Salvar registro" [disabled]="!form.valid">Salvar</button>
             <button nbButton hero status="primary" (click)="dismiss()" nbTooltip="Fechar tela">Fechar</button>
-            <button nbButton hero status="danger" (click)="deleteVerification()" nbTooltip="Excluir registro">Excluir</button>
+            <button nbButton hero status="danger" (click)="deleteVerification()" nbTooltip="Excluir registro"
+                *ngIf="!new">Excluir</button>
         </div>
     </nb-card-footer>
 </nb-card>

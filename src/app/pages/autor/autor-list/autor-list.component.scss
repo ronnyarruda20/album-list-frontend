@@ -1,6 +1,16 @@
 @import '../../../@theme/styles/themes';
 
+
 @include nb-install-component() {
+
+  .buttons-row {
+    margin: -0.5rem;
+  }
+
+  button[nbButton] {
+    margin: 0.5rem;
+  }
+
   .list-card {
     nb-card-header {
       border-bottom: none;
@@ -9,5 +19,16 @@
     nb-card-body {
       padding: 0;
     }
+  }
+
+  nb-list-item:hover {
+    margin-top      : 1px;
+    margin-bottom   : 1px;
+    background-color: nb-theme(slide-out-background);
+  }
+
+  .excluir {
+    position: absolute;
+    right   : 1rem;
   }
 }

@@ -1,10 +1,35 @@
 <nb-card class="list-card">
-    <nb-card-header>Lista de Autores</nb-card-header>
-    <nb-card-body>
-      <nb-list>
-        <nb-list-item *ngFor="let autor of autors">
-          {{ autor.nome }}
-        </nb-list-item>
-      </nb-list>
-    </nb-card-body>
-  </nb-card>
+  <!-- <nb-card-header>Lista de Autores</nb-card-header> -->
+  <nb-card-body>
+
+    <nb-accordion>
+      <nb-accordion-item #item>
+        <nb-accordion-item-header nbTooltip="Click aqui para salvar um novo autor">
+          Lista de Autores
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="row">
+            <div class="col-md-8 col-lg-8 col-xxxl-10 col-sm-12">
+              <input type="text" nbInput fullWidth placeholder="Novo autor" [formControl]="autorNome">
+            </div>
+            <div class="buttons-row">
+              <button nbButton hero ghost (click)="limpar()">Limpar</button>
+              <button nbButton hero status="primary" (click)="save()" nbTooltip="Salvar registro"
+                [disabled]="!autorNome.valid">Salvar</button>
+            </div>
+          </div>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+
+    <nb-list>
+      <nb-list-item *ngFor="let autor of autors" nbTooltip="Editar" (click)="carregarAutor(autor)">
+        {{ autor.nome }}
+        <button class="excluir" nbButton hero ghost (click)="excluir(autor.id)" nbTooltip="Excluir registro">
+          <nb-icon icon="trash-2-outline" status="control"></nb-icon>
+        </button>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>

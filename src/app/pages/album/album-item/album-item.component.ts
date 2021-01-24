@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { AutorModel } from 'app/pages/autor/autor.model';
 import { RemoveDialogComponent } from 'app/shared/dialog/remove-dialog/remove-dialog.component';
 import { Utils } from 'app/shared/utils/utls';
-import { environment } from 'environments/environment';
+import { AlbumModel } from '../album.model';
 import { AlbumService } from '../album.service';
-import { AlbumModel } from './../album.model';
 
 @Component({
   selector: 'ngx-album-item',
@@ -19,6 +19,9 @@ export class AlbumItemComponent implements OnInit {
   form: FormGroup;
   albumModel: AlbumModel
   refresh: boolean = false
+  autors = new Array<AutorModel>();
+  autorNome = new FormControl();
+  new: boolean = true;
 
   constructor(
     private service: AlbumService,
@@ -30,12 +33,24 @@ export class AlbumItemComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loadAutor();
     this.createObject();
+    this.loadingObject();
+  }
 
+  loadingObject() {
     if (this.albumModel) {
+      this.new = false;
       this.albumModel.fileUrl = this.getFileUrl(this.albumModel.file);
       this.form.patchValue(this.albumModel)
+      this.autorNome.setValue(this.albumModel.autor.id)
+      this.autorNome.disable();
+    } else {
+      this.albumModel = new AlbumModel();
     }
+    this.autorNome.valueChanges.subscribe( res => {
+      this.form.get('autor').patchValue(this.autors.find(p => p.id == res))
+    })
   }
 
   createObject() {
@@ -66,13 +81,6 @@ export class AlbumItemComponent implements OnInit {
     }
   }
 
-  saveImage() {
-    this.service.saveImage(this.file, String(this.albumModel.id)).subscribe(res => {
-      if (res) {
-        this.refresh = true;
-      }
-    })
-  }
 
   saveAlbum() {
     this.service.save(this.form.value).subscribe(res => {
@@ -104,5 +112,12 @@ export class AlbumItemComponent implements OnInit {
           this.deleteAlbum()
         }
       })
+  }
+
+  private loadAutor() {
+    this.service.listAutor()
+      .subscribe(res => {
+        this.autors = res;
+      });
   }
 }
