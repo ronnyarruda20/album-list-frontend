@@ -1,38 +1,41 @@
 <div [nbSpinner]="submitted" nbSpinnerSize="giant" nbSpinnerStatus="primary">
-<!-- <h1 id="title" class="title">Login</h1> -->
-<p class="sub-title">Bem vindo ao id-cotton</p>
-<p class="sub-title">
-  <img src="./assets/images/mini_logo_25X25-green.svg" height="150" width="150">
-</p>
+  <!-- <h1 id="title" class="title">Login</h1> -->
+  <h1 class="sub-title">Login</h1>
+  <p class="sub-title">
+    <nb-icon icon="lock-outline" status="control">
+    </nb-icon>
+  </p>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="formLogin" >
-  <div class="form-group">
-    <label for="inputUsername" class="label">Usuário</label>
-    <input type="text" nbInput fullWidth fieldSize="large" id="inputUsername" placeholder="Digite aqui seu usuário"
-      formControlName="username" autofocus>
-    <ng-container *ngIf="formLogin.get('username').invalid && formLogin.get('username').touched">
-      <p class="caption status-danger" *ngIf="formLogin.get('username').errors.required">
-        Login obrigatório
-      </p>
-    </ng-container>
-  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="formLogin">
+    <div class="form-group">
+      <label for="inputUsername" class="label">Usuário</label>
+      <input type="text" nbInput fullWidth fieldSize="large" id="inputUsername" placeholder="Digite aqui seu usuário"
+        formControlName="username" autofocus>
+      <ng-container *ngIf="formLogin.get('username').invalid && formLogin.get('username').touched">
+        <p class="caption status-danger" *ngIf="formLogin.get('username').errors.required">
+          Login obrigatório
+        </p>
+      </ng-container>
+    </div>
 
-  <div class="form-group">
-    <label for="inputPassword" class="label">Senha</label>
-    <input type="password" nbInput fullWidth fieldSize="large" id="inputPassword" placeholder="Digite aqui sua senha" formControlName="password">
-    <ng-container *ngIf="formLogin.get('password').invalid && formLogin.get('password').touched">
-      <p class="caption status-danger" *ngIf="formLogin.get('password').errors.required"> Senha obrigatório </p>
-    </ng-container>
-  </div>
+    <div class="form-group">
+      <label for="inputPassword" class="label">Senha</label>
+      <input type="password" nbInput fullWidth fieldSize="large" id="inputPassword" placeholder="Digite aqui sua senha"
+        formControlName="password">
+      <ng-container *ngIf="formLogin.get('password').invalid && formLogin.get('password').touched">
+        <p class="caption status-danger" *ngIf="formLogin.get('password').errors.required"> Senha obrigatório </p>
+      </ng-container>
+    </div>
 
-  <!-- <div class="form-control-group accept-group">
+    <!-- <div class="form-control-group accept-group">
     <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
   </div> -->
 
-  <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !formLogin.valid" [class.btn-pulse]="submitted">
-    Log In
-  </button>
-</form>
+    <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !formLogin.valid"
+      [class.btn-pulse]="submitted">
+      Log In
+    </button>
+  </form>
 </div>
 <p class="sub-title">
   <ngx-version *ngIf="!isProduction"></ngx-version>
