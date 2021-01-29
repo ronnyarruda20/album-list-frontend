@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { NbDialogService, NbSearchService } from '@nebular/theme';
@@ -16,10 +16,13 @@ import { AlbumModel } from './../album.model';
 })
 export class AlbumListComponent implements OnInit {
 
-  pagInfo = new PageInfo
+  sort: string = "ASC"
+  pageInfo = new PageInfo
   loadingShow: boolean = true
   albums = new Array<AlbumModel>();
   searchTerm: string = null;
+
+  @ViewChild('paginator', { static: false }) paginator: MatPaginator;
 
   constructor(
     private service: AlbumService,
@@ -32,37 +35,41 @@ export class AlbumListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadALbum(this.pagInfo.pageNumber, this.pagInfo.pageSize);
+    this.loadALbum(this.pageInfo.pageNumber, this.pageInfo.pageSize);
     this.loadSearch();
   }
 
   setPageEvent(pageEvent: PageEvent) {
-    this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize, this.searchTerm)
+    this.loadALbum(pageEvent.pageIndex, pageEvent.pageSize, this.searchTerm, this.sort)
   }
-
+  
   loadSearch() {
     this.searchService.onSearchSubmit()
-      .subscribe((data: any) => {
-        this.pagInfo = new PageInfo
-        this.searchTerm = data.term;
-        this.loadALbum(0, 5, this.searchTerm);
-      })
+    .subscribe((data: any) => {
+      this.pageInfo = new PageInfo
+      this.searchTerm = data.term;
+      this.loadALbum(0, 5, this.searchTerm, this.sort);
+    })
   }
-
+  
   clearSearch() {
     if (this.searchTerm) {
       this.searchTerm = null;
-      // this.pagInfo = new 
-      this.loadALbum(0, 5, this.searchTerm);
+      this.loadALbum(0, 5, this.searchTerm, this.sort);
     }
   }
+  
+  changeSort(){
+    this.loadALbum(this.pageInfo.pageNumber, this.paginator.pageSize, this.searchTerm, this.sort)
+  }
 
-  private loadALbum(pageNumber: number, pageSize: number, searchTerm?: string) {
+  private loadALbum(pageNumber: number, pageSize: number, searchTerm?: string, sort?: string) {
     this.loadingShow = true
-    this.service.list(pageNumber, pageSize, searchTerm)
+    this.service.list(pageNumber, pageSize, searchTerm, sort)
       .subscribe(res => {
         this.albums = res.contents;
-        this.pagInfo = res.pageInfo
+        this.pageInfo = res.pageInfo
+        this.paginator.pageIndex = res.pageInfo.pageNumber;
         this.loadingShow = false
         if (res.contents.length > 0) {
           this.albums.map(p => p.fileUrl = this.getFileUrl(p.file))
@@ -87,7 +94,7 @@ export class AlbumListComponent implements OnInit {
       closeOnBackdropClick: false,
     }).onClose.subscribe(res => {
       if (res) {
-        this.loadALbum(this.pagInfo.pageNumber, this.pagInfo.pageSize);
+        this.loadALbum(this.pageInfo.pageNumber, this.pageInfo.pageSize, this.searchTerm, this.sort);
       }
     });
   }

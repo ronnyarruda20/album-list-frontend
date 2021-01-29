@@ -10,10 +10,9 @@ p {
   font-size: 13px;
 }
 
-mat-paginator {
-  right   : 1rem;
-  position: absolute;
-}
+// mat-paginator {
+//   right   : 3rem;
+// }
 
 nb-search {
   margin-left: 16px;
@@ -153,6 +152,14 @@ h5 {
 
 }
 
-// ::ng-deep .mat-paginator-container {
-//   padding: 15px 8px !important;
-// }
+.form-inline [fullWidth] {
+  flex: 1;
+}
+
+.form-inline > * {
+  margin: 0 1.5rem 1.5rem 0;
+}
+
+nb-card.inline-form-card nb-card-body {
+  padding-bottom: 0;
+}

@@ -1,10 +1,8 @@
-import { messages } from './../../extra-components/chat/messages';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { NbToastrService } from '@nebular/theme';
 import { AutorModel } from '../autor.model';
 import { AutorService } from '../autor.service';
-import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'ngx-autor-list',

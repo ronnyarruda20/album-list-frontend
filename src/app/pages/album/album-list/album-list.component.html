@@ -1,19 +1,34 @@
-<nb-card>
-  <nb-card-header class="row">
-    <div class="col-md-6 col-lg-6 col-sd-12">
-      <nb-search type="rotate-layout" tag="rotate-layout" placeholder="Buscar..." hint="Pressione Enter para pesquisar">
-      </nb-search>
-      <button class="limpar" nbButton ghost (click)="clearSearch()" [hidden]="!searchTerm" nbTooltip="Limpar termo pesquisado: {{searchTerm}}">Limpar</button>
-    </div>
-    <div class="col-md-6 col-lg-6 col-sd-12">
-      <mat-paginator [length]="pagInfo.totalElements" [pageSize]="pagInfo.pageSize" (page)="setPageEvent($event)">
-      </mat-paginator>
-    </div>
-  </nb-card-header>
-  <nb-card-body *ngIf="pagInfo.totalElements == 0">
-    <nb-alert outline="danger">Nenhum registro encontrado</nb-alert>
-  </nb-card-body>
-</nb-card>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <!-- <nb-card-header>Inline form</nb-card-header> -->
+      <nb-card-body>
+        <div class="form-inline">
+          <div class="col-4 .col-md-4 .col-sm-12" *ngIf="!searchTerm">  
+            <nb-search type="rotate-layout" tag="rotate-layout" placeholder="Buscar..." hint="Pressione Enter para pesquisar" ></nb-search>
+          </div>
+          <div class="col-2 .col-md-4 .col-sm-12" *ngIf="searchTerm">  
+            <input type="text" nbInput fullWidth id="inputName" placeholder="Termo" [value]="searchTerm" readonly="true">
+          </div>
+          <button class="limpar" nbButton ghost (click)="clearSearch()" nbTooltip="Limpar termo pesquisado" *ngIf="searchTerm">Limpar</button>
+          <div class="col-1 .col-md-4 .col-sm-12">
+            <nb-select [(selected)]="sort" (selectedChange)="changeSort()">
+              <nb-option value="ASC">Ascendente</nb-option>
+              <nb-option value="DESC">Decrescente</nb-option>
+            </nb-select>
+          </div>
+          <div class="col-6 .col-md-4 .col-sm-12">
+            <mat-paginator #paginator [length]="pageInfo.totalElements" [pageSize]="pageInfo.pageSize" (page)="setPageEvent($event)">
+            </mat-paginator>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
 <div class="row" [nbSpinner]="loadingShow" nbSpinnerSize="giant" nbSpinnerStatus="primary">
   <div *ngFor="let album of albums">
     <a (click)="openAlbumItemDialog(album)">

@@ -24,13 +24,14 @@ export class AlbumService implements OnInit {
 
   ngOnInit() { }
 
-  list(pageNumber: any, pageSize: any, searchTerm: string = null): Observable<PaginationModel<AlbumModel>> {
+  list(pageNumber: any, pageSize: any, searchTerm: string = null, sort: any = 'ASC'): Observable<PaginationModel<AlbumModel>> {
     let paramn = searchTerm ? 'searchTerm' : null;
     return this.httpClient.get<any>(this.baseUrl + '/list', {
       params: new HttpParams()
         .set(paramn, searchTerm)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
+        .set('sort', sort.toString())
     }).pipe();
   }
 
