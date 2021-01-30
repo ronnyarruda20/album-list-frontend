@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'app/security/guards/auth.guard';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { PagesComponent } from './pages.component';
 
@@ -11,12 +12,12 @@ const routes: Routes = [{
     {
       path: 'album',
       loadChildren: () => import('./album/album.module')
-        .then(m => m.AlbumModule),
+        .then(m => m.AlbumModule), canActivate: [AuthGuard]
     },
     {
       path: 'autor',
       loadChildren: () => import('./autor/autor.module')
-        .then(m => m.AutorsModule),
+        .then(m => m.AutorsModule), canActivate: [AuthGuard]
     },
     {
       path: 'miscellaneous',

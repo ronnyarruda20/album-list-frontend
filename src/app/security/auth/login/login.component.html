@@ -27,17 +27,9 @@
       </ng-container>
     </div>
 
-    <!-- <div class="form-control-group accept-group">
-    <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
-  </div> -->
-
     <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !formLogin.valid"
       [class.btn-pulse]="submitted">
       Log In
     </button>
   </form>
 </div>
-<p class="sub-title">
-  <ngx-version *ngIf="!isProduction"></ngx-version>
-  <!-- <ngx-version ></ngx-version> -->
-</p>

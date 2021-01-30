@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'dark';
 
-  userMenu = [ { title: 'Log out' }];
+  userMenu = [{ title: 'Log out' }];
 
   constructor(
     private menuService: NbMenuService,
@@ -107,4 +107,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout() {
     this.authenticationService.logout();
   }
+
 }

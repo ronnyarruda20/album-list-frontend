@@ -20,19 +20,7 @@ export const routes: Routes = [
       {
         path: 'logout',
         component: NgxLogoutComponent,
-      },
-      // {
-      //   path: 'register',
-      //   component: NbRegisterComponent,
-      // },
-      // {
-      //   path: 'request-password',
-      //   component: NbRequestPasswordComponent,
-      // },
-      // {
-      //   path: 'reset-password',
-      //   component: NbResetPasswordComponent,
-      // },
+      }
     ],
   }
 ];
