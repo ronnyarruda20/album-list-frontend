@@ -1,4 +1,4 @@
-<nb-card  [nbSpinner]="loadingShow" nbSpinnerSize="small" nbSpinnerStatus="primary">
+<nb-card [nbSpinner]="loadingShow" nbSpinnerSize="small" nbSpinnerStatus="primary">
     <nb-card-body>
         <form [formGroup]="form">
 
@@ -8,7 +8,7 @@
                         <img [src]="albumModel?.fileUrl" width="300" height="300">
                     </div>
                 </div>
-                <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true"
+                <input #inputFile type="file" name="file" id="file" class="inputfile" hidden="true" accept="image/*"
                     (change)="handleFileInput($event)" />
                 <label nbButton for="file" nbTooltip="Adicionar uma imagem">
                     <nb-icon icon="plus-circle-outline" [options]="{ animation: { type: 'zoom' } }" status="control">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="col-md-12 col-lg-12 col-xxxl-12">
-                <nb-select [formControl]="autorNome" fullWidth  placeholder="Nome do Autor">
+                <nb-select [formControl]="autorNome" fullWidth placeholder="Nome do Autor">
                     <nb-option *ngFor="let a of autors" [value]="a.id"> {{ a.nome }}</nb-option>
                 </nb-select>
                 <ng-container *ngIf="form.get('autor').get('nome').invalid && autorNome.touched">
@@ -36,11 +36,12 @@
                 </ng-container>
             </div>
 
-        </form><br/><br/>
+        </form><br /><br />
     </nb-card-body>
     <nb-card-footer>
         <div class="buttons-row">
-            <button nbButton hero status="primary" (click)="saveAlbum()" nbTooltip="Salvar registro" [disabled]="!form.valid">Salvar</button>
+            <button nbButton hero status="primary" (click)="saveAlbum()" nbTooltip="Salvar registro"
+                [disabled]="!form.valid">Salvar</button>
             <button nbButton hero status="primary" (click)="dismiss()" nbTooltip="Fechar tela">Fechar</button>
             <button nbButton hero status="danger" (click)="deleteVerification()" nbTooltip="Excluir registro"
                 *ngIf="!new">Excluir</button>
