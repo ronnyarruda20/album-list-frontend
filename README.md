@@ -27,3 +27,8 @@ npm start
 ```
 ### Pronto agora pode ser acessado através do [http://localhost:4200](http://localhost:4200)
 
+### Acesso
+```
+Login: admin
+Senha: password
+```
