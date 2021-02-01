@@ -1,13 +1,13 @@
 # album-list 
 
- Este projeto te com tem como base gerenciar albuns e autores.
+ Este projeto tem como base gerenciar ábuns e autores.
  
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/).
 
-### Rodando o Front End 
+### Rodando o FrontEnd 
 
 ## Clone este repositório
 ``` 
