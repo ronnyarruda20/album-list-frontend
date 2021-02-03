@@ -26,6 +26,19 @@ npm install
 npm start
 ```
 ### Pronto agora pode ser acessado através do [http://localhost:4200](http://localhost:4200)
+------------------------------------------ou--------------------------------------------------
+
+# Com docker...
+
+## Build no projeto criando container
+```
+docker build -t album-list-frontend .
+```
+## Start na imagem do container
+```
+docker run --name album-list-container -d -p 4200:80 album-list-frontend
+```
+### Pronto agora pode ser acessado através do [http://localhost:4200](http://localhost:4200)
 
 ### Acesso
 ```
