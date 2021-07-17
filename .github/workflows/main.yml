@@ -11,6 +11,9 @@ jobs:
     name: Deploy Angular App
     runs-on: ubuntu-latest
 
+    env:
+      DOCKER_CONTAINER_REGISTRY: 143.244.166.213:5000
+
     steps:
     - name: Get latest code
       uses: actions/checkout@v2.3.2
@@ -31,5 +34,5 @@ jobs:
 
     - name: Build Docker Project
       run: |
-        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
-        docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+        docker build . --file Dockerfile --tag ${{ DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+        docker push ${{ DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
