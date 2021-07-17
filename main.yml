@@ -1,0 +1,33 @@
+name: Deploy prod site on push
+
+on: 
+  push:
+    branches: 
+      - deploy
+
+jobs:
+  web-deploy: 
+
+    name: Deploy Angular App
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER: waws-prod-ln1-025.ftp.azurewebsites.windows.net
+
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2.3.2
+
+    - name: Use Node.js 14 LTS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    
+    - name: Otimization
+      run: npm ci
+      
+    - name: Install NPM Modules
+      run: npm install
+
+    - name: Build Project
+      run: npm run build
