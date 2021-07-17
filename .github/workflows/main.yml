@@ -11,9 +11,6 @@ jobs:
     name: Deploy Angular App
     runs-on: ubuntu-latest
 
-    env:
-      SERVER: waws-prod-ln1-025.ftp.azurewebsites.windows.net
-
     steps:
     - name: Get latest code
       uses: actions/checkout@v2.3.2
@@ -29,5 +26,10 @@ jobs:
     - name: Install NPM Modules
       run: npm install
 
-    - name: Build Project
+    - name: Build Angular Project
       run: npm run build
+
+    - name: Build Docker Project
+      run: |
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+        docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
