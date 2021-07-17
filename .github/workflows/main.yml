@@ -34,5 +34,5 @@ jobs:
 
     - name: Build Docker Project
       run: |
-        docker build . --file Dockerfile --tag ${{ DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
-        docker push ${{ DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+        docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+        docker push ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
