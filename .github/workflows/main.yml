@@ -10,7 +10,6 @@ jobs:
 
     name: Deploy Angular App
     runs-on: ubuntu-latest
-    uses: --insecure-registry=143.244.166.213:5000
 
     env:
       DOCKER_CONTAINER_REGISTRY: 143.244.166.213:5000
@@ -35,5 +34,6 @@ jobs:
 
     - name: Build Docker Project
       run: |
+        --insecure-registry=143.244.166.213:5000
         docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
         docker push ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
