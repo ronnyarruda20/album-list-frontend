@@ -10,6 +10,7 @@ jobs:
 
     name: Deploy Angular App
     runs-on: ubuntu-latest
+    uses: --insecure-registry=143.244.166.213:5000
 
     env:
       DOCKER_CONTAINER_REGISTRY: 143.244.166.213:5000
