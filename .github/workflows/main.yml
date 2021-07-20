@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_CONTAINER_REGISTRY: 143.244.166.213:5000
+      DOCKER_CONTAINER_REGISTRY: registry-precision.ddns.net:5000
 
     steps:
     - name: Get latest code
@@ -34,6 +34,5 @@ jobs:
 
     - name: Build Docker Project
       run: |
-        --insecure-registry=143.244.166.213:5000
         docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
         docker push ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
