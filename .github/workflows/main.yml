@@ -32,12 +32,12 @@ jobs:
     - name: Build Angular Project
       run: npm run build
 
-    - name: Build Docker Project
+    - name: Build Docker Project and pusing to registry
       run: |
         docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
         docker push ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
         
-    - name: executing remote ssh commands using password
+    - name: Executing remote ssh commands using password
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -47,7 +47,6 @@ jobs:
          docker pull ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
          docker rm --force ${{ github.event.repository.name }}
          docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi
-         docker run -d -p 8080:8080 --name ${{ github.event.repository.name }} \
-         --memory 750m --cpus 2 -e TZ=America/Cuiaba --restart always \
-         ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
+         docker run -d -p 8080:80 --name ${{ github.event.repository.name }} \
+         -e TZ=America/Cuiaba --restart always ${{ env.DOCKER_CONTAINER_REGISTRY }}/${{ github.event.repository.name }}:latest
          ls -al
