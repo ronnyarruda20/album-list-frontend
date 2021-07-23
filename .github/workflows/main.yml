@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_CONTAINER_REGISTRY: registry-precision.ddns.net:5000
+      DOCKER_CONTAINER_REGISTRY: registry-precision.ddns.net
 
     steps:
     - name: Get latest code
