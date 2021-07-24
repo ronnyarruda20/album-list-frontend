@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:8080/',
+  api: 'http://143.244.166.213:8080/',
 };
